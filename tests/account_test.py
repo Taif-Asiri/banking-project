@@ -4,9 +4,9 @@ from account import Account, hash_password
 class TestAccount(unittest.TestCase):
 
     def test_account_init(self):
-        acc = Account(10001, 500.0)
+        acc = Account(10001, 1000.0)
         self.assertEqual(acc.account_id, 10001)
-        self.assertEqual(acc.balance, 500.0)
+        self.assertEqual(acc.balance, 1000.0)
         
 if __name__ == "__main__":
     unittest.main()    
