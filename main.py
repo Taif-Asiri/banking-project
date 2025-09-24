@@ -24,6 +24,10 @@ def main():
                 continue
 
             print(f"Welcome {customer.first_name} {customer.last_name}!")
+    while True:
+                print("\nYour balances:")
+                print(f"Checking: {customer.checking.balance}")
+                print(f"Savings: {customer.savings.balance}")
 
 if __name__ == "__main__":
     main()
