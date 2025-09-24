@@ -17,9 +17,15 @@ class Bank:
                 for row in reader:
                     cust = Customer(
                         account_id=row['account_id'],
+<<<<<<< HEAD
                         first_name=row['first_name'],
                         last_name=row['last_name'],
                         password=row['password'], 
+=======
+                        first_name=row['frst_name'],
+                        last_name=row['last_name'],
+                        password=row['password'],
+>>>>>>> e5021a6c725bda41d8fc801c5f6fdfb40d88c05c
                         balance_checking=float(row['balance_checking']),
                         balance_savings=float(row['balance_savings'])
                     )
