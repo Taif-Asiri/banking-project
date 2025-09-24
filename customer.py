@@ -6,6 +6,7 @@ class Customer:
         self.account_id = int(account_id)
         self.first_name = first_name
         self.last_name = last_name
-        self.password = password 
+        self.password = password
         self.checking = Account(account_id, balance_checking)
         self.savings = Account(account_id, balance_savings)
+
