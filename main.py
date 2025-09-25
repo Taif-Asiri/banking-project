@@ -28,7 +28,19 @@ def main():
                 print("\nYour balances:")
                 print(f"Checking: {customer.checking.balance}")
                 print(f"Savings: {customer.savings.balance}")
+                
+                print("\nOptions:")
+                print("1 - Deposit")
+                print("2 - Withdraw")
+                print("3 - Transfer")
+                print("0 - Logout")
+                action = input("Choose an option: ")
 
+                if action == "0":
+                    break
+                elif action in ["1", "2", "3"]:
+                    acct_type = input("Choose account (checking/savings): ").lower()
+                    amount = float(input("Enter amount: "))
 if __name__ == "__main__":
     main()
     

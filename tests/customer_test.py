@@ -10,7 +10,7 @@ class TestCustomer(unittest.TestCase):
             last_name="Sigera",
             password="juagw362",
             balance_checking=1000.0,
-            balance_savings=10000.0
+            balance_savings=10000.0,
         )
         self.assertEqual(cust.account_id, 10001)
         self.assertEqual(cust.first_name, "Suresh")
