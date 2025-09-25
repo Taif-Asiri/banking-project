@@ -1,7 +1,7 @@
 from bank import Bank
 
 def main():
-    bank = Bank()
+    bank = Bank("BANK.CSV")
     print("=== Welcome to ACME Bank ===")
 
     while True:
@@ -68,6 +68,6 @@ def main():
                         print("Error:", e)
                 else:
                  print("Invalid option.")    
-if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+        main()
     

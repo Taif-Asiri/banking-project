@@ -1,6 +1,6 @@
 import csv, os, hashlib
 
-BANK_CSV = "bank.csv"
+BANK_CSV = "BANK.CSV"
 
 def hash_password(pw: str) -> str:
     return hashlib.sha256(pw.encode()).hexdigest()

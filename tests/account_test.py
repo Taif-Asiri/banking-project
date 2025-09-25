@@ -1,5 +1,5 @@
 import unittest
-from account import Account, hash_password 
+from account import Account
 
 class TestAccount(unittest.TestCase):
 
