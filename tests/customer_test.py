@@ -21,28 +21,11 @@ class TestCustomer(unittest.TestCase):
         
     def test_customer_account_operations(self):
         cust = Customer(10002, "James", "Taylor", "pwd", balance_checking=200, balance_savings=500)
-       
         cust.checking.deposit(50)
         self.assertEqual(cust.checking.balance, 250)
-      
         cust.savings.withdraw(100)
         self.assertEqual(cust.savings.balance, 400)
 
 if __name__ == "__main__":
     unittest.main() 
     #  python -m unittest tests/customer_test.py
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    # python -m unittest tests/customer_test.py    

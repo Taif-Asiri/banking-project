@@ -41,6 +41,33 @@ def main():
                 elif action in ["1", "2", "3"]:
                     acct_type = input("Choose account (checking/savings): ").lower()
                     amount = float(input("Enter amount: "))
+                try:
+                        if action == "1":
+                            if acct_type == "checking":
+                                customer.checking.deposit(amount)
+                            else:
+                                customer.savings.deposit(amount)
+                        elif action == "2":
+                            if acct_type == "checking":
+                                customer.checking.withdraw(amount)
+                            else:
+                                customer.savings.withdraw(amount)
+                        elif action == "3":
+                            to_type = input("Transfer to (checking/savings)? ").lower()
+                            if acct_type == "checking":
+                                customer.checking.withdraw(amount)
+                            else:
+                                customer.savings.withdraw(amount)
+                            if to_type == "checking":
+                                customer.checking.deposit(amount)
+                            else:
+                                customer.savings.deposit(amount)
+
+                        print("Transaction successful.")
+                except ValueError as e:
+                        print("Error:", e)
+                else:
+                 print("Invalid option.")    
 if __name__ == "__main__":
     main()
     

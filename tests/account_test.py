@@ -8,17 +8,13 @@ class TestAccount(unittest.TestCase):
         self.assertEqual(acc.account_id, 10001)
         self.assertEqual(acc.balance, 1000.0)
         
-if __name__ == "__main__":
-    unittest.main()    
+
         # python -m unittest tests/account_test.py
         
     def test_deposit(self):
         acc = Account(10002, 100.0)
         acc.deposit(50)
         self.assertEqual(acc.balance, 150.0)
-        
-if __name__ == "__main__":
-    unittest.main()
         
     def test_withdraw(self):
         acc = Account(10003, 200.0)

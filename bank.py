@@ -45,16 +45,14 @@ class Bank:
     balance_checking = float(input("Enter initial checking balance: "))
     balance_savings = float(input("Enter initial savings balance: "))
 
- #
+    new_id = self.get_next_account_id()
 
 
-def get_next_account_id():
-    if not os.path.exists(BANK_CSV):
-        return 10001  
-
+    def get_next_account_id(self):
+        if not os.path.exists(BANK_CSV):
+            return 10001
     with open(BANK_CSV, mode="r") as f:
         reader = csv.reader(f)
         next(reader)  
         ids = [int(row[0]) for row in reader]
-
     return max(ids) + 1 if ids else 10001
