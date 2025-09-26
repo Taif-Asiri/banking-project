@@ -67,19 +67,21 @@ def main():
                                 customer.savings.withdraw(amount)
                                 
                     elif action == "3":
+                        to_id = input("Enter recipient account ID: ").strip()
+                        from_type = input("Transfer from (checking/savings)? ").lower()
                         to_type = input("Transfer to (checking/savings)? ").lower()
-                        if acct_type == "checking":
-                            customer.checking.withdraw(amount)
-                        else:
-                            customer.savings.withdraw(amount)
-                        if to_type == "checking":
-                            customer.checking.deposit(amount)
-                        else:
-                                customer.savings.deposit(amount)
+                        amount = float(input("Enter amount to transfer: "))
 
-                        print("Transaction successful.")
+                    try:
+                        to_customer = bank.customers.get(int(to_id))
+                        if not to_customer:
+                            print("❌ Recipient not found.")
+                            continue
+                        bank.transfer(customer, from_type, to_customer, to_type, amount)
+                    except ValueError as e:
+                        print("Error:", e)
                         
-                except ValueError as e:
+                    except ValueError as e:
                         print("Error:", e)
             else:
                  print("Invalid option.")    

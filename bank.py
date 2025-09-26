@@ -29,7 +29,7 @@ class Bank:
     def login(self, account_id, password):
         account_id = int(account_id)
         cust = self.customers.get(account_id)
-        if cust and cust.password == password:
+        if cust and cust.password == hash_password(password):
             return cust
         return None
 
@@ -40,6 +40,7 @@ class Bank:
         password = input("Enter password: ")
         balance_checking = float(input("Enter initial checking balance: "))
         balance_savings = float(input("Enter initial savings balance: "))
+
 
         new_id = self.get_next_account_id()
 
