@@ -1,6 +1,6 @@
-import csv, os, hashlib
+import hashlib #os,csv
 
-BANK_CSV = "BANK.CSV"
+BANK_CSV = "BANK.csv"
 
 def hash_password(pw: str) -> str:
     return hashlib.sha256(pw.encode()).hexdigest()
@@ -18,6 +18,6 @@ class Account:
     def withdraw(self, amount: float):
         if amount <= 0:
             raise ValueError("Withdraw amount must be positive")
-        if self.balance - amount < 0: 
-            raise ValueError("Insufficient funds")
-        self.balance -= amount
+        # if self.balance - amount < 0: 
+        #     raise ValueError("Insufficient funds")
+        # self.balance -= amount

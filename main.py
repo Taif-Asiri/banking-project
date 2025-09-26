@@ -22,7 +22,7 @@ def main():
             if not customer:
                 print("Login failed. Check your ID or password.")
                 continue
-
+           
             print(f"Welcome {customer.first_name} {customer.last_name}!")
             
         while True:
@@ -41,7 +41,7 @@ def main():
                 print("Logging out...")
                 break
             
-            elif action in ["1", "2", "3"]:
+            elif action in ["1", "2"]:
                 acct_type = input("Choose account (checking/savings): ").lower()
                 if acct_type not in ("checking", "savings"):
                    print("Invalid account type.")
@@ -60,31 +60,43 @@ def main():
                         else:
                                 customer.savings.deposit(amount)
                                 
-                    elif action == "2":
+                    else:
                         if acct_type == "checking":
                                 customer.checking.withdraw(amount)
                         else:
                                 customer.savings.withdraw(amount)
+                    print("Transaction successful.")   
+                except ValueError as e:
+                    print("Error:", e)  
                                 
-                    elif action == "3":
-                        to_id = input("Enter recipient account ID: ").strip()
-                        from_type = input("Transfer from (checking/savings)? ").lower()
-                        to_type = input("Transfer to (checking/savings)? ").lower()
-                        amount = float(input("Enter amount to transfer: "))
-
-                    try:
-                        to_customer = bank.customers.get(int(to_id))
-                        if not to_customer:
-                            print("❌ Recipient not found.")
+            elif action == "3":
+                from_type = input("Transfer from (checking/savings)? ").lower()
+                to_id = input("Transfer to (checking/savings)? ").lower()
+                amount = float(input("Enter amount to transfer: "))
+                if from_type not in ("checking", "savings") or to_type not in ("checking", "savings"):
+                            print("Invalid account type.")
                             continue
-                        bank.transfer(customer, from_type, to_customer, to_type, amount)
-                    except ValueError as e:
+                    
+                try:
+                    amount = float(input("Enter amount to transfer: "))
+                except ValueError:
+                    print("Invalid amount.")
+                    continue
+                    
+                to_customer = bank.customers.get(int(to_id))
+                if not to_customer:
+                    print("❌ Recipient not found.")
+                    continue
+                
+                try:    
+                    bank.transfer(customer, from_type, to_customer, to_type, amount)
+                except ValueError as e:
                         print("Error:", e)
-                        
-                    except ValueError as e:
-                        print("Error:", e)
-            else:
+                    
+                 
+        else:
                  print("Invalid option.")    
+                 
     else:
             print("Invalid option, please try again.")                 
 if __name__ == "__main__":

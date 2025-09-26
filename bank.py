@@ -1,11 +1,12 @@
-import csv, os
+import csv
+import os
 from customer import Customer
 from account import hash_password, BANK_CSV
 # def hash_password(pw: str) -> str:
 #     return hashlib.sha256(pw.encode()).hexdigest()
 
 class Bank:
-    def __init__(self, filename):
+    def __init__(self, filename:  str = BANK_CSV):
         self.filename = filename
         self.customers = {}
         self.load_customers()
@@ -13,9 +14,12 @@ class Bank:
     def load_customers(self):
         if not os.path.exists(self.filename):
                 return
+            
         with open(self.filename, newline='', encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
+                checking = float(row.get('balance_checking') or 0)
+                savings = float(row.get('balance_savings') or 0)
                 cust = Customer(
                     account_id=row['account_id'],
                     first_name=row['first_name'],
@@ -25,13 +29,14 @@ class Bank:
                     balance_savings=float(row['balance_savings']),
                 )
                 self.customers[int(row['account_id'])] = cust
-
-    def login(self, account_id, password):
-        account_id = int(account_id)
-        cust = self.customers.get(account_id)
-        if cust and cust.password == hash_password(password):
-            return cust
-        return None
+                
+    def save_customers(self):
+        with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
+            for cid in sorted(self.customers.keys()):
+                c = self.customers[cid]
+                writer.writerow([c.account_id, c.first_name, c.last_name, c.password, c.checking.balance, c.savings.balance])            
 
 
     def create_new_account(self):
@@ -40,10 +45,8 @@ class Bank:
         password = input("Enter password: ")
         balance_checking = float(input("Enter initial checking balance: "))
         balance_savings = float(input("Enter initial savings balance: "))
-
-
+        
         new_id = self.get_next_account_id()
-
 
         with open(BANK_CSV, mode="a", newline="") as f:
             writer = csv.writer(f)
@@ -57,6 +60,31 @@ class Bank:
             ])
 
         print(f" Account created successfully! Your account ID is {new_id}")
+        
+    def login(self, account_id, password):
+        account_id = int(account_id)
+        cust = self.customers.get(account_id)
+        if cust and cust.password == hash_password(password):
+            return cust
+        return None    
+    
+    def transfer(self, from_customer, from_type, to_customer, to_type, amount):
+        if from_type == "checking":
+            from_acct = from_customer.checking
+        else:
+            from_acct = from_customer.savings
+
+        if to_type == "checking":
+            to_acct = to_customer.checking
+        else:
+            to_acct = to_customer.savings
+
+        from_acct.withdraw(amount)
+
+        to_acct.deposit(amount)
+
+        print(f" Transferred {amount} from {from_customer.first_name}'s {from_type} "
+                f"to {to_customer.first_name}'s {to_type}")
 
     def get_next_account_id(self):
         if not os.path.exists(BANK_CSV):
