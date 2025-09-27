@@ -1,7 +1,7 @@
 from bank import Bank
 
 def main():
-    bank = Bank("BANK.CSV")
+    bank = Bank("BANK.csv")
     print("=== Welcome to ACME Bank ===")
 
     while True:
@@ -41,7 +41,7 @@ def main():
                 print("Logging out...")
                 break
             
-            elif action in ["1", "2"]:
+            elif action in ["1", "2", "3"]:
                 acct_type = input("Choose account (checking/savings): ").lower()
                 if acct_type not in ("checking", "savings"):
                    print("Invalid account type.")
@@ -60,14 +60,11 @@ def main():
                         else:
                                 customer.savings.deposit(amount)
                                 
-                    else:
-                        if acct_type == "checking":
-                                customer.checking.withdraw(amount)
-                        else:
-                                customer.savings.withdraw(amount)
-                    print("Transaction successful.")   
-                except ValueError as e:
-                    print("Error:", e)  
+            elif action == "2": 
+                if acct_type == "checking":
+                 customer.checking.withdraw(amount)
+                else:
+                    customer.savings.withdraw(amount)    
                                 
             elif action == "3":
                 from_type = input("Transfer from (checking/savings)? ").lower()
