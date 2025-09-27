@@ -41,61 +41,53 @@ def main():
                 print("Logging out...")
                 break
             
-            elif action in ["1", "2", "3"]:
-                acct_type = input("Choose account (checking/savings): ").lower()
-                if acct_type not in ("checking", "savings"):
-                   print("Invalid account type.")
-                   continue  
-                
+            elif action == "1":
+                acct_type = input("Deposit into (checking/savings)? ").lower()
+                amount = float(input("Enter amount: "))
                 try:
-                    amount = float(input("Enter amount: "))
-                except ValueError:
-                    print("Invalid amount.")
-                    continue   
-                   
-                try:
-                    if action == "1":
-                        if acct_type == "checking":
-                            customer.checking.deposit(amount)
-                        else:
-                                customer.savings.deposit(amount)
-                                
+                    if acct_type == "checking":
+                        customer.checking.deposit(amount)
+                    else:
+                        customer.savings.deposit(amount)
+                    print("✅ Deposit successful.")
+                except ValueError as e:
+                        print("Error:", e)                     
             elif action == "2": 
-                if acct_type == "checking":
-                 customer.checking.withdraw(amount)
-                else:
-                    customer.savings.withdraw(amount)    
-                                
+                acct_type == input("Withdraw from (checking/savings)").lower()
+                amount = float(input("Enter amount: "))
+                try:
+                    if acct_type == "checking":
+                        customer.checking.withdraw(amount)
+                    else:
+                        customer.savings.withdraw(amount)
+                    print("Withdraw successful")     
+                except ValueError as e:
+                    print("Error:", e)                        
             elif action == "3":
                 from_type = input("Transfer from (checking/savings)? ").lower()
-                to_id = input("Transfer to (checking/savings)? ").lower()
+                to_type = "savings" if from_type == "checking" else "checking"
                 amount = float(input("Enter amount to transfer: "))
-                if from_type not in ("checking", "savings") or to_type not in ("checking", "savings"):
-                            print("Invalid account type.")
-                            continue
-                    
                 try:
-                    amount = float(input("Enter amount to transfer: "))
-                except ValueError:
-                    print("Invalid amount.")
-                    continue
-                    
+                    bank.transfer(customer, from_type, customer, to_type, amount)
+                except ValueError as e:
+                    print("Error", e)
+            elif action == "4":
+                to_id = input("Enter recipient account ID: ").strip()
+                from_type = input("Transfer from checking/savings? ").lower()
+                amount = float(input("Enter amount: "))  
                 to_customer = bank.customers.get(int(to_id))
                 if not to_customer:
-                    print("❌ Recipient not found.")
+                    print("Recipient not found.")
                     continue
-                
                 try:    
                     bank.transfer(customer, from_type, to_customer, to_type, amount)
                 except ValueError as e:
                         print("Error:", e)
                     
                  
-        else:
+            else:
                  print("Invalid option.")    
-                 
-    else:
-            print("Invalid option, please try again.")                 
+                
 if __name__ == "__main__":
     main()
     
