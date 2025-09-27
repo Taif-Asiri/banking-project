@@ -34,7 +34,8 @@ def main():
                 print("\nOptions:")
                 print("1 - Deposit")
                 print("2 - Withdraw")
-                print("3 - Transfer")
+                print("3 - Transfer between your accounts")
+                print("4 - Transfer to another account")
                 print("0 - Logout")
                 action = input("Choose an option: ").strip()
 
@@ -50,6 +51,8 @@ def main():
                             customer.checking.deposit(amount)
                         else:
                             customer.savings.deposit(amount)
+                            
+
                         print("✅ Deposit successful.")
                     except ValueError as e:
                         print("Error:", e)                     
@@ -78,16 +81,18 @@ def main():
                     to_id = input("Enter recipient account ID: ").strip()
                     from_type = input("Transfer from checking/savings? ").lower()
                     amount = float(input("Enter amount: "))  
+                    
                     to_customer = bank.customers.get(int(to_id))
                     if not to_customer:
                         print("Recipient not found.")
                         continue
+                    to_type = "checking"
+                    
                     try:    
                         bank.transfer(customer, from_type, to_customer, to_type, amount)
                     except ValueError as e:
                         print("Error:", e)
-                    
-                 
+                              
         else:
             print("Invalid option.")    
                 

@@ -1,13 +1,26 @@
 import csv
 import os 
 import hashlib
+import re
+from datetime import datetime
 from customer import Customer
 from account import Account
 
 BANK_CSV = "BANK.csv"
-
+TRANSACTIONS_CSV = "transactions.csv"
 def hash_password(pw: str) -> str:
     return hashlib.sha256(pw.encode()).hexdigest()
+
+def validate_password(pw: str) -> bool:
+    if len(pw) < 8:
+        return False
+    if not re.search(r"[A-Z]", pw):
+        return False
+    if not re.search(r"[a-z]", pw):
+        return False
+    if not re.search(r"\d", pw):
+        return False
+    return True
 
 class Bank:
     def __init__(self, filename):
@@ -33,13 +46,19 @@ class Bank:
                 )
                 self.customers[int(row['account_id'])] = cust
                 
-    # def save_customers(self):
-    #     with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
-    #         writer = csv.writer(f)
-    #         writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
-    #         for cid in sorted(self.customers.keys()):
-    #             c = self.customers[cid]
-    #             writer.writerow([c.account_id, c.first_name, c.last_name, c.password, c.checking.balance, c.savings.balance]) 
+    def save_customers(self):
+        with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
+            for cid in sorted(self.customers.keys()):
+                c = self.customers[cid]
+                writer.writerow([c.account_id, c.first_name, c.last_name, c.password, c.checking.balance, c.savings.balance]) 
+                
+    def log_transaction(from_acc, to_acc, trans_type, amount):
+        with open(TRANSACTIONS_CSV, mode="a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            writer.writerow([now, from_acc, to_acc, trans_type, amount])            
                 
     def login(self, account_id, password):
         account_id = int(account_id)
@@ -70,8 +89,13 @@ class Bank:
             if not last_name.isalpha():
                 print("Name must contain only letters.")
             else:
-                break    
-        password = input("Enter password: ").strip()
+                break 
+        while True:       
+            password = input("Enter password: ").strip()
+            if not validate_password(password):
+                print(" Password must be at least 8 characters and include uppercase, lowercase, and a number.")
+                continue
+            break
         balance_checking = float(input("Enter initial checking balance: "))
         balance_savings = float(input("Enter initial savings balance: "))   
         new_id = self.get_next_account_id()
@@ -85,6 +109,7 @@ class Bank:
            
     
     def transfer(self, from_customer, from_type, to_customer, to_type, amount):
+        
         if from_type == "checking":
             from_acct = from_customer.checking
         else:
@@ -99,6 +124,7 @@ class Bank:
 
         to_acct.deposit(amount)
 
+        # log_transaction(from_customer.account_id, to_customer.account_id, "transfer", amount)
         print(f" Transferred {amount} from {from_customer.first_name}'s {from_type} "
                 f"to {to_customer.first_name}'s {to_type}")
 

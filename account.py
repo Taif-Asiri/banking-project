@@ -4,7 +4,7 @@
 
 # def hash_password(pw: str) -> str:
 #     return hashlib.sha256(pw.encode()).hexdigest()
-
+# from cashback import Cashback
 class Account:
     def __init__(self, account_id, balance=0.0):
         self.account_id = int(account_id)
@@ -13,7 +13,7 @@ class Account:
         self.active = True
         self.overdraft_limit = -100
 
-    def deposit(self, amount: float):
+    def deposit(self, amount: float, cashback_rate=0.095):
         if amount <= 0:
             raise ValueError("Deposit amount must be positive")
         self.balance += amount
@@ -37,7 +37,7 @@ class Account:
             raise ValueError(" Account deactivated due to 2 overdrafts")
 
         if self.balance < self.overdraft_limit:
-            raise ValueError(" Cannot withdraw beyond -$100 overdraft limit")
+            raise ValueError(" Cannot withdraw beyond -SR100 overdraft limit")
         
         return self.balance
         
