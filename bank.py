@@ -2,7 +2,9 @@ import csv
 import os 
 import hashlib
 from customer import Customer
-from account import Account , BANK_CSV
+from account import Account
+
+BANK_CSV = "BANK.csv"
 
 def hash_password(pw: str) -> str:
     return hashlib.sha256(pw.encode()).hexdigest()
@@ -31,13 +33,13 @@ class Bank:
                 )
                 self.customers[int(row['account_id'])] = cust
                 
-    def save_customers(self):
-        with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
-            for cid in sorted(self.customers.keys()):
-                c = self.customers[cid]
-                writer.writerow([c.account_id, c.first_name, c.last_name, c.password, c.checking.balance, c.savings.balance]) 
+    # def save_customers(self):
+    #     with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
+    #         writer = csv.writer(f)
+    #         writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
+    #         for cid in sorted(self.customers.keys()):
+    #             c = self.customers[cid]
+    #             writer.writerow([c.account_id, c.first_name, c.last_name, c.password, c.checking.balance, c.savings.balance]) 
                 
     def login(self, account_id, password):
         account_id = int(account_id)
@@ -57,28 +59,29 @@ class Bank:
 
 
     def create_new_account(self):
-        first_name = input("Enter first name: ")
-        if not first_name.isalpha():
-            print("Name must contain only letters.")
-        else:
-            break
-    while True:
-        last_name = input("Enter last name: ").strip()
-        if not last_name.isalpha():
+        while True:
+            first_name = input("Enter first name: ")
+            if not first_name.isalpha():
                 print("Name must contain only letters.")
-        else:
-            break    
-    password = input("Enter password: ").strip()
-    balance_checking = float(input("Enter initial checking balance: "))
-    balance_savings = float(input("Enter initial savings balance: "))   
-    new_id = self.get_next_account_id()
-    hashed_pw = hash_password(password)
+            else:
+                break
+        while True:
+            last_name = input("Enter last name: ").strip()
+            if not last_name.isalpha():
+                print("Name must contain only letters.")
+            else:
+                break    
+        password = input("Enter password: ").strip()
+        balance_checking = float(input("Enter initial checking balance: "))
+        balance_savings = float(input("Enter initial savings balance: "))   
+        new_id = self.get_next_account_id()
+        hashed_pw = hash_password(password)
 
-    with open(BANK_CSV, mode="a", newline="") as f:
+        with open(BANK_CSV, mode="a", newline="") as f:
             writer = csv.writer(f)
             writer.writerow([new_id, first_name, last_name, hashed_pw, balance_checking, balance_savings])
-
-            print(f" Account created successfully! Your account ID is {new_id}")
+        self.load_customers()
+        print(f" Account created successfully! Your account ID is {new_id}")
            
     
     def transfer(self, from_customer, from_type, to_customer, to_type, amount):
