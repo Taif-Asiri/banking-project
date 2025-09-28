@@ -47,16 +47,19 @@ class Bank:
                 self.customers[int(row['account_id'])] = cust
                 
     def save_customers(self):
-        with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
+        with open(self.filename, mode='a', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
             for cid in sorted(self.customers.keys()):
                 c = self.customers[cid]
                 writer.writerow([c.account_id, c.first_name, c.last_name, c.password, c.checking.balance, c.savings.balance]) 
                 
-    def log_transaction(from_acc, to_acc, trans_type, amount):
+    def log_transaction(self, from_acc, to_acc, trans_type, amount):
+        write_header = not os.path.exists(TRANSACTIONS_CSV) 
         with open(TRANSACTIONS_CSV, mode="a", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
+            if write_header:
+               writer.writerow(["date_time", "from_account", "to_account", "type", "amount"]) 
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             writer.writerow([now, from_acc, to_acc, trans_type, amount])            
                 
@@ -96,8 +99,21 @@ class Bank:
                 print(" Password must be at least 8 characters and include uppercase, lowercase, and a number.")
                 continue
             break
-        balance_checking = float(input("Enter initial checking balance: "))
-        balance_savings = float(input("Enter initial savings balance: "))   
+        
+        while True:
+            try:
+                balance_checking = float(input("Enter initial checking balance: "))
+                break
+            except ValueError:
+                print("Balance must be a valid number. Please try again.")
+        
+        
+        while True:
+            try:
+                balance_savings = float(input("Enter initial savings balance: "))
+                break
+            except ValueError:
+                print(" Balance must be a valid number. Please try again.")      
         new_id = self.get_next_account_id()
         hashed_pw = hash_password(password)
 

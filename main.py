@@ -51,7 +51,8 @@ def main():
                             customer.checking.deposit(amount)
                         else:
                             customer.savings.deposit(amount)
-                            
+                        bank.log_transaction(customer.account_id, customer.account_id, "deposit", amount)
+                        bank.save_customers()    
 
                         print("✅ Deposit successful.")
                     except ValueError as e:
@@ -64,6 +65,8 @@ def main():
                             customer.checking.withdraw(amount)
                         else:
                             customer.savings.withdraw(amount)
+                        bank.log_transaction(customer.account_id, customer.account_id, "withdraw", amount)
+                        bank.save_customers()
                         print("Withdraw successful")     
                     except ValueError as e:
                         print("Error:", e)   
@@ -75,6 +78,8 @@ def main():
                 
                     try:
                         bank.transfer(customer, from_type, customer, to_type, amount)
+                        bank.log_transaction(customer.account_id, customer.account_id, "transfer", amount)
+                        bank.save_customers()
                     except ValueError as e:
                         print("Error", e)
                 elif action == "4":
@@ -90,6 +95,8 @@ def main():
                     
                     try:    
                         bank.transfer(customer, from_type, to_customer, to_type, amount)
+                        bank.log_transaction(customer.account_id, to_customer.account_id, "transfer", amount)
+                        bank.save_customers()
                     except ValueError as e:
                         print("Error:", e)
                               
