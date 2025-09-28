@@ -17,6 +17,8 @@ class Account:
         if amount <= 0:
             raise ValueError("Deposit amount must be positive")
         self.balance += amount
+        cashback_amount = round(amount * cashback_rate, 2)
+        self.balance += cashback_amount
 
     def withdraw(self, amount: float):
         if not self.active:

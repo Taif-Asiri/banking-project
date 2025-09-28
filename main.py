@@ -1,4 +1,7 @@
 from bank import Bank
+from cashback import Cashback
+
+cashback_system = Cashback()
 
 def main():
     bank = Bank("BANK.csv")
@@ -51,6 +54,8 @@ def main():
                             customer.checking.deposit(amount)
                         else:
                             customer.savings.deposit(amount)
+                            
+                        cashback_system.apply_cashback(customer,amount)
                         bank.log_transaction(customer.account_id, customer.account_id, "deposit", amount)
                         bank.save_customers()    
 
@@ -104,5 +109,4 @@ def main():
             print("Invalid option.")    
                 
 if __name__ == "__main__":
-    main()
-    
+    main() 

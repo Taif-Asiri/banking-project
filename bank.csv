@@ -1,3 +1,6 @@
 account_id,first_name,last_name,password,balance_checking,balance_savings
 10001,Hoor,Asiri,2e77114589b07b9ec9d32969cb9a5458cb14e6602892c24df179971c15a49fb5,1200.0,2000.0
-10002,Sara,Ali,225865305abb273276339e5e1dfed8ba6c4bede26de194d3b0f384bbb4a7994b,-50.0,200.0
+10002,Sara,Ali,225865305abb273276339e5e1dfed8ba6c4bede26de194d3b0f384bbb4a7994b,55.0,300.0
+account_id,first_name,last_name,password,balance_checking,balance_savings
+10001,Hoor,Asiri,2e77114589b07b9ec9d32969cb9a5458cb14e6602892c24df179971c15a49fb5,1319.9,2000.0
+10002,Sara,Ali,225865305abb273276339e5e1dfed8ba6c4bede26de194d3b0f384bbb4a7994b,55.0,300.0
