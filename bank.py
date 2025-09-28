@@ -47,7 +47,7 @@ class Bank:
                 self.customers[int(row['account_id'])] = cust
                 
     def save_customers(self):
-        with open(self.filename, mode='a', newline='', encoding='utf-8') as f:
+        with open(self.filename, mode='w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f)
             writer.writerow(['account_id','first_name','last_name','password','balance_checking','balance_savings'])
             for cid in sorted(self.customers.keys()):
