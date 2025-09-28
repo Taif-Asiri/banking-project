@@ -1,3 +1,4 @@
+# as a bank, I want to reward customers with cashback when they deposit into savings, so I can reward loyal users during National Day.
 class Cashback:
     def __init__(self, rate=0.095):
         self.rate = rate

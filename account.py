@@ -1,10 +1,7 @@
-# import hashlib, os, csv
+# user story
+#  as a bank customer, i want to deposit and withdraw money from my account, so I can manage my funds
+# شs a bank, I want to limit how much a customer can overdraw from their account, so I can manage risk and prevent excessive negative balances
 
-# BANK_CSV = "BANK.csv"
-
-# def hash_password(pw: str) -> str:
-#     return hashlib.sha256(pw.encode()).hexdigest()
-# from cashback import Cashback
 class Account:
     def __init__(self, account_id, balance=0.0):
         self.account_id = int(account_id)

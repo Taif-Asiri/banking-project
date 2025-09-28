@@ -1,3 +1,5 @@
+# user story
+# as a customer, i want to have personal info (first name, last name, password) and 2 accounts (checking and savings)
 from account import Account
 
 class Customer:

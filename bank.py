@@ -1,3 +1,8 @@
+# As a customer, i want to log in with my ID and password, so the system can verify me
+# As a customer, i want to create a new account with valid info so I can start using it
+# As a customer, i want to transfer money between my accounts or to another customer so I can move my money
+# As a bank system, i want to log every transaction with date and time so there is a clear record
+
 import csv
 import os 
 import hashlib

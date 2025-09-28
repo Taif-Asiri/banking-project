@@ -1,3 +1,6 @@
+# as a customer, i want to choose actions (deposit, withdraw, transfer between accounts, transfer to another account) from a options
+# as a customer, i want to see my balances before each action, so I know how much I have
+# as a customer, i want clear messages for success or errors
 from bank import Bank
 from cashback import Cashback
 
