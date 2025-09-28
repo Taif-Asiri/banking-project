@@ -11,15 +11,31 @@ class TestAccount(unittest.TestCase):
 
         # python -m unittest tests/account_test.py
         
-    def test_deposit(self):
+    def test_deposit_valid(self):
         acc = Account(10002, 100.0)
         acc.deposit(50)
         self.assertEqual(acc.balance, 150.0)
         
-    def test_withdraw(self):
+    
+    def test_deposit_invalid(self):
+        acc = Account(10004, 100.0)
+        with self.assertRaises(ValueError):
+            acc.deposit(-50)        
+        
+    def test_withdraw_valid(self):
         acc = Account(10003, 200.0)
         acc.withdraw(100)
         self.assertEqual(acc.balance, 100.0)
+        
+    def test_withdraw_overdraft(self):
+        acc = Account(10005, 50.0)
+        with self.assertRaises(ValueError):
+            acc.withdraw(100)
+            
+    def test_withdraw_negative(self):
+        acc = Account(10006, 200.0)
+        with self.assertRaises(ValueError):
+            acc.withdraw(-20)
         
 if __name__ == "__main__":
     unittest.main()

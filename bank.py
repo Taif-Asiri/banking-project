@@ -136,11 +136,14 @@ class Bank:
         else:
             to_acct = to_customer.savings
 
+        if from_acct.balance - amount < from_acct.overdraft_limit:
+            raise ValueError(f"Cannot transfer: would exceed overdraft limit of {from_acct.overdraft_limit}")
+       
         from_acct.withdraw(amount)
 
         to_acct.deposit(amount)
 
-        # log_transaction(from_customer.account_id, to_customer.account_id, "transfer", amount)
+        
         print(f" Transferred {amount} from {from_customer.first_name}'s {from_type} "
                 f"to {to_customer.first_name}'s {to_type}")
 

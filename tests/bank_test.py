@@ -6,10 +6,15 @@ from account import hash_password, BANK_CSV
 class TestBank(unittest.TestCase):
 
     def setUp(self):
-   
+        self.TEST_CSV = "test_bank.csv"
         with open(self.TEST_CSV, "w", newline="") as f:
             f.write("account_id,first_name,last_name,password,balance_checking,balance_savings\n")
             f.write(f"10001,Suresh,Sigera,{hash_password('juagw362')},1000,10000\n")
+        self.bank = Bank(self.TEST_CSV) 
+    def tearDown(self):
+        if os.path.exists(self.TEST_CSV):
+            os.remove(self.TEST_CSV)
+    
     def test_load_and_login(self):
         bank = Bank(BANK_CSV)
         cust = bank.login(10001, "juagw362")
